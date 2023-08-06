@@ -660,6 +660,12 @@ if __name__ == "__main__":
     parser.add_argument("--host", type=str, default="0.0.0.0")
     parser.add_argument("--port", type=int)
     parser.add_argument(
+        "--cert",
+        type=str,
+        default=None,
+        help="Path to SSL certificate file. If not specified, HTTPS will not be used.",
+    )
+    parser.add_argument(
         "--share",
         action="store_true",
         help="Whether to generate a public, shareable link.",
@@ -731,4 +737,7 @@ if __name__ == "__main__":
         share=args.share,
         max_threads=200,
         auth=auth,
+        ssl_certfile=args.cert,
+        ssl_keyfile=os.path.splitext(args.cert)[0] + ".key" if args.cert else None,
+        ssl_verify=False,
     )
